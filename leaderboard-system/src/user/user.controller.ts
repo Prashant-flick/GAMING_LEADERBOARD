@@ -5,11 +5,6 @@ import { UserService } from "./user.service";
 export class UserController {
     constructor(private userService: UserService) {}
 
-    @Post()
-    createUser(@Body() body: {email: string, password: string}) {
-        return this.userService.createUser(body.email, body.password);
-    }
-
     @Get()
     getUsers() {
         return this.userService.getAllUser();

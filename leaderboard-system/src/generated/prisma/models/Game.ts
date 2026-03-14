@@ -27,18 +27,21 @@ export type AggregateGame = {
 export type GameMinAggregateOutputType = {
   id: string | null
   name: string | null
+  status: $Enums.GameStatus | null
   createdAt: Date | null
 }
 
 export type GameMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  status: $Enums.GameStatus | null
   createdAt: Date | null
 }
 
 export type GameCountAggregateOutputType = {
   id: number
   name: number
+  status: number
   createdAt: number
   _all: number
 }
@@ -47,18 +50,21 @@ export type GameCountAggregateOutputType = {
 export type GameMinAggregateInputType = {
   id?: true
   name?: true
+  status?: true
   createdAt?: true
 }
 
 export type GameMaxAggregateInputType = {
   id?: true
   name?: true
+  status?: true
   createdAt?: true
 }
 
 export type GameCountAggregateInputType = {
   id?: true
   name?: true
+  status?: true
   createdAt?: true
   _all?: true
 }
@@ -138,6 +144,7 @@ export type GameGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type GameGroupByOutputType = {
   id: string
   name: string
+  status: $Enums.GameStatus
   createdAt: Date
   _count: GameCountAggregateOutputType | null
   _min: GameMinAggregateOutputType | null
@@ -165,6 +172,7 @@ export type GameWhereInput = {
   NOT?: Prisma.GameWhereInput | Prisma.GameWhereInput[]
   id?: Prisma.StringFilter<"Game"> | string
   name?: Prisma.StringFilter<"Game"> | string
+  status?: Prisma.EnumGameStatusFilter<"Game"> | $Enums.GameStatus
   createdAt?: Prisma.DateTimeFilter<"Game"> | Date | string
   scores?: Prisma.ScoreListRelationFilter
   leaderboards?: Prisma.LeaderboardListRelationFilter
@@ -173,6 +181,7 @@ export type GameWhereInput = {
 export type GameOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   scores?: Prisma.ScoreOrderByRelationAggregateInput
   leaderboards?: Prisma.LeaderboardOrderByRelationAggregateInput
@@ -184,6 +193,7 @@ export type GameWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.GameWhereInput | Prisma.GameWhereInput[]
   OR?: Prisma.GameWhereInput[]
   NOT?: Prisma.GameWhereInput | Prisma.GameWhereInput[]
+  status?: Prisma.EnumGameStatusFilter<"Game"> | $Enums.GameStatus
   createdAt?: Prisma.DateTimeFilter<"Game"> | Date | string
   scores?: Prisma.ScoreListRelationFilter
   leaderboards?: Prisma.LeaderboardListRelationFilter
@@ -192,6 +202,7 @@ export type GameWhereUniqueInput = Prisma.AtLeast<{
 export type GameOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.GameCountOrderByAggregateInput
   _max?: Prisma.GameMaxOrderByAggregateInput
@@ -204,12 +215,14 @@ export type GameScalarWhereWithAggregatesInput = {
   NOT?: Prisma.GameScalarWhereWithAggregatesInput | Prisma.GameScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Game"> | string
   name?: Prisma.StringWithAggregatesFilter<"Game"> | string
+  status?: Prisma.EnumGameStatusWithAggregatesFilter<"Game"> | $Enums.GameStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Game"> | Date | string
 }
 
 export type GameCreateInput = {
   id?: string
   name: string
+  status?: $Enums.GameStatus
   createdAt?: Date | string
   scores?: Prisma.ScoreCreateNestedManyWithoutGameInput
   leaderboards?: Prisma.LeaderboardCreateNestedManyWithoutGameInput
@@ -218,6 +231,7 @@ export type GameCreateInput = {
 export type GameUncheckedCreateInput = {
   id?: string
   name: string
+  status?: $Enums.GameStatus
   createdAt?: Date | string
   scores?: Prisma.ScoreUncheckedCreateNestedManyWithoutGameInput
   leaderboards?: Prisma.LeaderboardUncheckedCreateNestedManyWithoutGameInput
@@ -226,6 +240,7 @@ export type GameUncheckedCreateInput = {
 export type GameUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   scores?: Prisma.ScoreUpdateManyWithoutGameNestedInput
   leaderboards?: Prisma.LeaderboardUpdateManyWithoutGameNestedInput
@@ -234,6 +249,7 @@ export type GameUpdateInput = {
 export type GameUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   scores?: Prisma.ScoreUncheckedUpdateManyWithoutGameNestedInput
   leaderboards?: Prisma.LeaderboardUncheckedUpdateManyWithoutGameNestedInput
@@ -242,42 +258,52 @@ export type GameUncheckedUpdateInput = {
 export type GameCreateManyInput = {
   id?: string
   name: string
+  status?: $Enums.GameStatus
   createdAt?: Date | string
 }
 
 export type GameUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type GameUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type GameCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type GameMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type GameMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type GameScalarRelationFilter = {
   is?: Prisma.GameWhereInput
   isNot?: Prisma.GameWhereInput
+}
+
+export type EnumGameStatusFieldUpdateOperationsInput = {
+  set?: $Enums.GameStatus
 }
 
 export type GameCreateNestedOneWithoutScoresInput = {
@@ -311,6 +337,7 @@ export type GameUpdateOneRequiredWithoutLeaderboardsNestedInput = {
 export type GameCreateWithoutScoresInput = {
   id?: string
   name: string
+  status?: $Enums.GameStatus
   createdAt?: Date | string
   leaderboards?: Prisma.LeaderboardCreateNestedManyWithoutGameInput
 }
@@ -318,6 +345,7 @@ export type GameCreateWithoutScoresInput = {
 export type GameUncheckedCreateWithoutScoresInput = {
   id?: string
   name: string
+  status?: $Enums.GameStatus
   createdAt?: Date | string
   leaderboards?: Prisma.LeaderboardUncheckedCreateNestedManyWithoutGameInput
 }
@@ -341,6 +369,7 @@ export type GameUpdateToOneWithWhereWithoutScoresInput = {
 export type GameUpdateWithoutScoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leaderboards?: Prisma.LeaderboardUpdateManyWithoutGameNestedInput
 }
@@ -348,6 +377,7 @@ export type GameUpdateWithoutScoresInput = {
 export type GameUncheckedUpdateWithoutScoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leaderboards?: Prisma.LeaderboardUncheckedUpdateManyWithoutGameNestedInput
 }
@@ -355,6 +385,7 @@ export type GameUncheckedUpdateWithoutScoresInput = {
 export type GameCreateWithoutLeaderboardsInput = {
   id?: string
   name: string
+  status?: $Enums.GameStatus
   createdAt?: Date | string
   scores?: Prisma.ScoreCreateNestedManyWithoutGameInput
 }
@@ -362,6 +393,7 @@ export type GameCreateWithoutLeaderboardsInput = {
 export type GameUncheckedCreateWithoutLeaderboardsInput = {
   id?: string
   name: string
+  status?: $Enums.GameStatus
   createdAt?: Date | string
   scores?: Prisma.ScoreUncheckedCreateNestedManyWithoutGameInput
 }
@@ -385,6 +417,7 @@ export type GameUpdateToOneWithWhereWithoutLeaderboardsInput = {
 export type GameUpdateWithoutLeaderboardsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   scores?: Prisma.ScoreUpdateManyWithoutGameNestedInput
 }
@@ -392,6 +425,7 @@ export type GameUpdateWithoutLeaderboardsInput = {
 export type GameUncheckedUpdateWithoutLeaderboardsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   scores?: Prisma.ScoreUncheckedUpdateManyWithoutGameNestedInput
 }
@@ -439,6 +473,7 @@ export type GameCountOutputTypeCountLeaderboardsArgs<ExtArgs extends runtime.Typ
 export type GameSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  status?: boolean
   createdAt?: boolean
   scores?: boolean | Prisma.Game$scoresArgs<ExtArgs>
   leaderboards?: boolean | Prisma.Game$leaderboardsArgs<ExtArgs>
@@ -448,22 +483,25 @@ export type GameSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type GameSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  status?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["game"]>
 
 export type GameSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  status?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["game"]>
 
 export type GameSelectScalar = {
   id?: boolean
   name?: boolean
+  status?: boolean
   createdAt?: boolean
 }
 
-export type GameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "createdAt", ExtArgs["result"]["game"]>
+export type GameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "status" | "createdAt", ExtArgs["result"]["game"]>
 export type GameInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   scores?: boolean | Prisma.Game$scoresArgs<ExtArgs>
   leaderboards?: boolean | Prisma.Game$leaderboardsArgs<ExtArgs>
@@ -481,6 +519,7 @@ export type $GamePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    status: $Enums.GameStatus
     createdAt: Date
   }, ExtArgs["result"]["game"]>
   composites: {}
@@ -909,6 +948,7 @@ export interface Prisma__GameClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface GameFieldRefs {
   readonly id: Prisma.FieldRef<"Game", 'String'>
   readonly name: Prisma.FieldRef<"Game", 'String'>
+  readonly status: Prisma.FieldRef<"Game", 'GameStatus'>
   readonly createdAt: Prisma.FieldRef<"Game", 'DateTime'>
 }
     

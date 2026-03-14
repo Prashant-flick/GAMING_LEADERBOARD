@@ -1,4 +1,4 @@
-import { Body, Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, Param, Query } from "@nestjs/common";
 import { LeaderboardService } from "./leaderboard.service";
 
 @Controller('leaderboards')
@@ -6,12 +6,18 @@ export class LeaderboardController {
     constructor(private leaderboardService: LeaderboardService) {}
 
     @Get()
-    getTopPlayer(@Body() body: {gameId: string, limit: number}) {
-        return this.leaderboardService.getTopPlayers(body.gameId, body.limit);
+    getTopPlayer(
+        @Query('gameId') gameId: string,
+        @Query('limit') limit: number
+    ) {
+        return this.leaderboardService.getTopPlayers(gameId, limit);
     }
 
-    @Get()
-    getRank(@Body() body: {gameId: string, userId: string}) {
-        return this.leaderboardService.getRank(body.userId, body.gameId);
+    @Get(":id")
+    getRank(
+        @Query('userId') userId: string,
+        @Query('gameId') gameId: string
+    ) {
+        return this.leaderboardService.getRank(userId, gameId);
     }
 }

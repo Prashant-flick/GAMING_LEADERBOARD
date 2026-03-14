@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --accent-glow: rgba(200, 241, 53, 0.18);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #08090a;
+    color: #f0f0f0;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(200, 241, 53, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200, 241, 53, 0.025) 1px, transparent 1px);
+    background-size: 44px 44px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #08090a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2e3036;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #444;
+  }
+}
+
+@layer components {
+  /* ── Staggered animation delays ── */
+  .stagger-1 { animation-delay: 0.05s; }
+  .stagger-2 { animation-delay: 0.10s; }
+  .stagger-3 { animation-delay: 0.16s; }
+  .stagger-4 { animation-delay: 0.22s; }
+
+  /* ── Accent glow ── */
+  .accent-glow {
+    box-shadow: 0 0 24px 4px var(--accent-glow);
+  }
+
+  /* ── Score pill ── */
+  .score-pill {
+    @apply inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-accent border border-accent/20 bg-accent/5 font-mono text-sm font-semibold;
+  }
+
+  /* ── Glass surface ── */
+  .glass {
+    background: rgba(17, 18, 20, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}

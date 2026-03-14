@@ -1,7 +1,9 @@
+-- CreateEnum
+CREATE TYPE "GameStatus" AS ENUM ('STARTED', 'IN_PROGRESS', 'FINISHED');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
-    "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -13,6 +15,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Game" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "status" "GameStatus" NOT NULL DEFAULT 'STARTED',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Game_pkey" PRIMARY KEY ("id")
@@ -41,10 +44,10 @@ CREATE TABLE "Leaderboard" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "Game_name_key" ON "Game"("name");
 
 -- AddForeignKey
 ALTER TABLE "Score" ADD CONSTRAINT "Score_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
