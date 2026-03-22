@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import Spinner from '@/components/ui/Spinner'
+import { useNavigate } from 'react-router-dom'
 
 export default function AuthPage() {
   const [tab, setTab] = useState('signin')
@@ -12,8 +13,9 @@ export default function AuthPage() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const navigate = useNavigate();
 
-  const { login, signup } = useAuth()
+  const { login, signup, user } = useAuth()
   const { toast } = useToast()
 
   const handleSubmit = async () => {
@@ -39,6 +41,11 @@ export default function AuthPage() {
   }
 
   const handleKey = (e) => { if (e.key === 'Enter') handleSubmit() }
+
+  useEffect(() => {
+    if (!user) return;
+    navigate('/')
+  }, [user])
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-bg">

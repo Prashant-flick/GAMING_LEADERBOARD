@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RefreshCw } from 'lucide-react'
 import { gamesApi, usersApi, leaderboardApi } from '@/lib/api'
@@ -73,6 +73,7 @@ export default function LeaderboardPage() {
   const [loadingInit, setLoadingInit] = useState(true)
   const [loadingBoard, setLoadingBoard] = useState(false)
   const { toast } = useToast()
+  const prevBoardRef = useRef([])
 
   useEffect(() => {
     Promise.all([
@@ -85,9 +86,22 @@ export default function LeaderboardPage() {
     })
   }, [])
 
-  const fetchBoard = useCallback(async (gameId, lim) => {
+  function isSameBoard(a, b) {
+    if (a.length !== b.length) return false
+
+    for (let i = 0; i < a.length; i++) {
+      if (a[i].userId !== b[i].userId) return false
+      if (a[i].score !== b[i].score) return false
+    }
+
+    return true
+  }
+
+  const fetchBoard = useCallback(async (gameId, lim, showLoader = false) => {
     if (!gameId) return
-    setLoadingBoard(true)
+
+    if (showLoader) setLoadingBoard(true);
+
     try {
       const { data } = await leaderboardApi.getTop(gameId, lim)
       // Redis returns flat array: [userId, score, userId, score, …]
@@ -97,16 +111,25 @@ export default function LeaderboardPage() {
           parsed.push({ userId: data[i], score: parseInt(data[i + 1]) })
         }
       }
-      setEntries(parsed)
+      if (!isSameBoard(parsed, prevBoardRef.current)) {
+        prevBoardRef.current = parsed;
+        setEntries(parsed)
+      }
     } catch (e) {
       toast(e?.response?.data?.message || e.message, 'error')
     } finally {
-      setLoadingBoard(false)
+      if (showLoader) setLoadingBoard(false);
     }
   }, [toast])
 
   useEffect(() => {
     fetchBoard(selectedGame, limit)
+
+    const interval = setInterval(() => {
+      fetchBoard(selectedGame, limit)
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, [selectedGame, limit, fetchBoard])
 
   const getEmail = (userId) => {
@@ -150,7 +173,7 @@ export default function LeaderboardPage() {
           <Button
             variant="ghost"
             size="md"
-            onClick={() => fetchBoard(selectedGame, limit)}
+            onClick={() => fetchBoard(selectedGame, limit, true)}
             disabled={!selectedGame || loadingBoard}
           >
             <RefreshCw size={14} className={loadingBoard ? 'animate-spin' : ''} />
