@@ -6,9 +6,10 @@ import { ScoreModule } from './score/score.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { LoadgeneratorModule } from './loadgenerator/loadgenerator.module';
 
 @Module({
-  imports: [GameModule, ScoreModule, UserModule, AuthModule, ConfigModule.forRoot({
+  imports: [GameModule, ScoreModule, UserModule, AuthModule, LoadgeneratorModule, ConfigModule.forRoot({
     isGlobal: true
   })],
   controllers: [AppController],

@@ -12,7 +12,8 @@ app.listen(4000, () => {
     console.log('app is running on port 4000')
 })
 
-const API = 'http://localhost:3000';
+const API = 'http://ec2-18-61-74-86.ap-south-2.compute.amazonaws.com:3000';
+// const API = 'http://localhost:3000';
 
 const ENDPOINTS = {
     createUser: `${API}/auth/signup`,
@@ -55,6 +56,7 @@ async function submitScore(userId) {
             gameId: game.id,
             score
         })
+        console.log(userId, game.id, score);
     }
 }
 
@@ -64,30 +66,41 @@ async function simulatePlayer() {
 }
 
 async function runLoad(players = 100) {
-    const tasks = [];
+    const limit = pLimit(10);
 
-    for (let i=0; i<players; i++) {
-        tasks.push(simulatePlayer());
-    }
+    const tasks = Array.from({ length: players }, (_, i) =>
+        limit(() => simulatePlayer(i))
+    );
 
     await Promise.all(tasks);
 }
 
+import pLimit from 'p-limit';
+
 async function randomScoreUpdates() {
-    setInterval(async () => {
-        const user = users[Math.floor(Math.random() * users.length)];
-        const game = games[Math.floor(Math.random() * games.length)];
-        if (!user) return;
-        if (!game) return;
 
-        const score = Math.floor(Math.random() * 100000);
+    const limit = pLimit(20); // try 5–10
 
-        await axios.post(ENDPOINTS.submitScore, {
-            userId: user.id,
-            gameId: game.id,
-            score
-        })
-    }, 50);
+    await Promise.all(
+        Array.from({ length: 10000 }).map((_, i) =>
+            limit(async () => {
+            const user = users[Math.floor((Math.random()*users.length))];
+            let game = games[Math.floor((Math.random() * games.length))];
+            
+            if(!user) {console.log("return"); return;}
+            if(!game) {console.log("return"); return;}
+            const score = Math.floor(Math.random() * 100000);
+
+            await axios.post(ENDPOINTS.submitScore, {
+                userId: user.id,
+                gameId: game.id,
+                score
+            });
+
+            console.log(i, score, user.id, game.id);
+            })
+        )
+    );
 }
 
 app.get("/start", async(req, res) => {
@@ -95,7 +108,7 @@ app.get("/start", async(req, res) => {
 
     await loadGames();
     await loadUsers();
-    randomScoreUpdates();
+    await randomScoreUpdates();
     // await runLoad(players);
 
     res.send(`Started load test with ${players} players`);

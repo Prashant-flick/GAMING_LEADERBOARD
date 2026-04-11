@@ -12,6 +12,7 @@ const navItems = [
   { to: '/games',       label: 'Games',         icon: Gamepad2 },
   { to: '/players',     label: 'Players',       icon: Users },
   { to: '/scores',      label: 'Submit Score',  icon: Star },
+  { to: '/load-generator', label: 'Load Generator', icon: Star}
 ]
 
 export default function Sidebar() {

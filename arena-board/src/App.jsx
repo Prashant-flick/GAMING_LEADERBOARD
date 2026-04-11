@@ -9,6 +9,7 @@ import LeaderboardPage from '@/pages/LeaderboardPage'
 import GamesPage from '@/pages/GamesPage'
 import PlayersPage from '@/pages/PlayersPage'
 import ScoresPage from '@/pages/ScoresPage'
+import LoadGeneratorPage from './pages/LoadGeneratorPage'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
             <Route path="games"       element={<GamesPage />} />
             <Route path="players"     element={<PlayersPage />} />
             <Route path="scores"      element={<ScoresPage />} />
+            <Route path="load-generator" element={<LoadGeneratorPage />} />
           </Route>
 
           {/* Fallback */}

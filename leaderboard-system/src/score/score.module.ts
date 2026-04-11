@@ -7,6 +7,7 @@ import { ScoreController } from "./score.controller";
 @Module({
     imports: [PrismaModule, LeaderboardModule],
     providers: [ScoreService],
-    controllers: [ScoreController]
+    controllers: [ScoreController],
+    exports: [ScoreService]
 })
 export class ScoreModule {};
