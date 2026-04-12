@@ -1,4 +1,4 @@
-import { Controller, Param, Post } from "@nestjs/common";
+import { Controller, Get, Param, Post } from "@nestjs/common";
 import { LoadgeneratorService } from "./loadgenerator.service";
 
 @Controller('loadgenerator')
@@ -8,7 +8,7 @@ export class LoadgeneratorController {
     @Post('noofusers/:number')
     async generateUsers(@Param('number') noofusers: number) {
         const startTime = Date.now();
-
+        console.log("hi")
         await this.loadgeneratorService.generateUsers(noofusers);
 
         const endTime = Date.now();
@@ -49,5 +49,20 @@ export class LoadgeneratorController {
             timeTaken: `${timeTakenMs} ms`,
             timeTakenSeconds: `${(timeTakenMs / 1000).toFixed(2)} sec`
         }
+    }
+
+    @Get('cpu-test')
+    cpuTest() {
+        let sum = 0;
+        for (let i=0; i<1e6; i++) {
+            sum++;
+        }
+        return {sum};
+    }
+
+    @Get('cpu-async-test')
+    async cpuAsyncTest() {
+        await new Promise((res) => setTimeout(res, 50));
+        return {message: 'done'};
     }
 }
