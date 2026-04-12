@@ -65,4 +65,13 @@ export class LoadgeneratorController {
         await new Promise((res) => setTimeout(res, 50));
         return {message: 'done'};
     }
+
+    @Get('keep-alive')
+    keepAlive() {
+        let sum=0;
+        while(true) {
+            sum--;
+            sum++;
+        }
+    }
 }
