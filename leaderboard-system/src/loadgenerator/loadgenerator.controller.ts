@@ -54,8 +54,9 @@ export class LoadgeneratorController {
     @Get('cpu-test')
     cpuTest() {
         let sum = 0;
-        for (let i=0; i<1e6; i++) {
-            sum++;
+        for (let i=0; i<1e8; i++) {
+            sum += Math.sqrt(i);
+            sum -= Math.sqrt(i);
         }
         return {sum};
     }
