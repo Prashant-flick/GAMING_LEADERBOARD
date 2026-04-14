@@ -13,10 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^10.3.0",
+    "@nestjs/passport": "^11.0.5",
     "axios": "^1.13.6",
     "express": "^5.2.1",
     "faker": "^6.6.6",
     "k6": "^0.0.0",
-    "p-limit": "^7.3.0"
+    "p-limit": "^7.3.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1"
   }
 }

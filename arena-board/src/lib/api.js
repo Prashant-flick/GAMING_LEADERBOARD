@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'ec2-18-61-74-86.ap-south-2.compute.amazonaws.com:3000'
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const client = axios.create({
   baseURL: BASE_URL,
@@ -46,5 +46,29 @@ export const leaderboardApi = {
   getRank: (gameId, userId) =>
     client.get(`/leaderboards/${gameId}`, { params: { userId } }),
 }
+
+// 🔥 Request Interceptor → attach token
+client.interceptors.request.use((config) => {
+  const token = localStorage.getItem("arena_token");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
+// 🔥 RESPONSE INTERCEPTOR (auto logout on 401)
+client.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('arena_token');
+      localStorage.removeItem('arena_user');
+      window.location.href = "/auth";
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default client

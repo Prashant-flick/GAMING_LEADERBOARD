@@ -1,6 +1,8 @@
-import { Controller, Get, Param, Post } from "@nestjs/common";
+import { Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { LoadgeneratorService } from "./loadgenerator.service";
+import { JwtAuthGuard } from "src/auth/jwt-auth.gaurd";
 
+@UseGuards(JwtAuthGuard)
 @Controller('loadgenerator')
 export class LoadgeneratorController {
     constructor(private loadgeneratorService: LoadgeneratorService) {}
@@ -8,7 +10,6 @@ export class LoadgeneratorController {
     @Post('noofusers/:number')
     async generateUsers(@Param('number') noofusers: number) {
         const startTime = Date.now();
-        console.log("hi")
         await this.loadgeneratorService.generateUsers(noofusers);
 
         const endTime = Date.now();
@@ -67,12 +68,20 @@ export class LoadgeneratorController {
         return {message: 'done'};
     }
 
-    @Get('keep-alive')
-    keepAlive() {
-        let sum=0;
-        while(true) {
-            sum--;
+    @Get('keep-alive/time/:sec')
+    keepAlive(@Param('sec') sec: number) {
+        const start = Date.now();
+        let sum = 0;
+
+        while (Date.now() - start < sec * 1000) {
             sum++;
+            sum--;
         }
+
+        return { 
+            message: `Loop ran for ${sec} seconds`,
+            timeTaken: `${sec*1000} ms`,
+            timeTakenSeconds: `${sec} sec`
+        };
     }
 }

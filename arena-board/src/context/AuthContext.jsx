@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, useCallback } from 'react'
-import { authApi } from '@/lib/api'
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { authApi } from '@/lib/api';
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext(null)
 
@@ -34,6 +35,27 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('arena_token')
     localStorage.removeItem('arena_user')
   }, [])
+
+  const isTokenExpired = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      return decoded.exp * 1000 < Date.now();
+    } catch (err) {
+      return true;
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("arena-token");
+
+    if (token) {
+      if (isTokenExpired(token)) {
+        logout();
+      } else {
+        setUser(jwtDecode(token));
+      }
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ token, user, login, signup, logout, isAuthenticated: !!token }}>

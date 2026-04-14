@@ -17,6 +17,7 @@ export default function LoadGeneratorPage() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [games, setGames]       = useState([])
+  const [second, setSecond] = useState("");
 
   const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -34,6 +35,7 @@ export default function LoadGeneratorPage() {
 
     try {
       setLoading(true);
+      setResponse(null);
       const res = await axios.post(
         `${BASE_URL}/loadgenerator/noofusers/${userCount}`
       );
@@ -51,6 +53,7 @@ export default function LoadGeneratorPage() {
 
     try {
       setLoading(true);
+      setResponse(null);
       const res = await axios.post(
         `${BASE_URL}/loadgenerator/game/${gameId}/noofscores/${scoreCount}/scoreLimit/${scoreLimit}`
       );
@@ -68,6 +71,7 @@ export default function LoadGeneratorPage() {
 
     try {
       setLoading(true);
+      setResponse(null);
       const res = await axios.post(
         `${BASE_URL}/loadgenerator/noofscores/${randomScoreCount}/scoreLimit/${randomScoreLimit}`
       );
@@ -79,6 +83,24 @@ export default function LoadGeneratorPage() {
       setLoading(false);
     }
   };
+
+  const keepAlive = async() => {
+    if (!second) return;
+
+    try {
+      setLoading(true);
+      setResponse(null);
+      const res = await axios.get(
+        `${BASE_URL}/loadgenerator/keep-alive/time/${second}`
+      );
+      setResponse(res.data);
+    } catch (err) {
+      console.error(err);
+      setResponse({ message: "Error Keeping Alive" });
+    } finally {
+      setLoading(false);
+    }
+  }
 
 
   return (
@@ -166,6 +188,26 @@ export default function LoadGeneratorPage() {
             />
 
             <Button onClick={generateRandomScores} disabled={loading}>
+              Generate
+            </Button>
+          </div>
+        </div>
+      </Card>
+
+      {/* Keep Alive For Sec */}
+      <Card>
+        <div className="space-y-4">
+          <h2 className="text-lg font-medium">Keep the connection Alive</h2>
+
+          <div className="flex gap-3">
+            <Input
+              type="number"
+              placeholder="Seconds"
+              value={second}
+              onChange={(e) => setSecond(e.target.value)}
+            />
+
+            <Button onClick={keepAlive} disabled={loading}>
               Generate
             </Button>
           </div>

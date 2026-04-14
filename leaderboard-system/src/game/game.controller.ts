@@ -1,6 +1,8 @@
-import { Controller, Get, Post, Body, Param } from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, UseGuards } from "@nestjs/common";
 import { GameService } from "./game.service";
+import { JwtAuthGuard } from "src/auth/jwt-auth.gaurd";
 
+@UseGuards(JwtAuthGuard)
 @Controller('games')
 export class GamesController {
     constructor(private gameService: GameService) {};
